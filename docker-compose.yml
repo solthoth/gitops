@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  #gitlab:
+  #  image: 'gitlab/gitlab-ee'
+  #  restart: always
+  #  hostname: 'gitlab.hercules.com'
+  #  environment: 
+  #    GITLAB_OMNIBUS_CONFIG: |
+  #      external_url 'https://gitlab.hercules.com'
+  #      # Add any other gitlab.rb configuration here, each on its own line
+  #  ports:
+  #    - '80:80'
+  #    - '443:443'
+  #  volumes:
+  #    - '~/.services/gitlab/config:/etc/gitlab'
+  #    - '~/.services/gitlab/logs:/var/log/gitlab'
+  #    - '~/.services/gitlab/data:/var/opt/gitlab'
+  gitea:
+    image: gitea/gitea:1.12.4
+    volumes:
+      - ~/.services/gittea/data:/data
+    ports:
+      - "3000:3000"
+      - "22:22"
+    depends_on:
+      - postgres
+    restart: always
+
+  postgres_admin:
+    image: dpage/pgadmin4:5.1
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=soldotsol@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    depends_on:
+      - postgres
+  
+  postgres:
+    image: postgres:13.2
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=S@Str0ng!1
+    volumes:
+      - '~/.services/postgres/data:/var/lib/postgresql/data'
+      - './postgres.conf:/etc/postgresql/postgresql.conf'
+      - './sql/init.sql:/docker-entrypoint-initdb.d/init.sql'
