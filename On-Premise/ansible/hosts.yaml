@@ -1,0 +1,9 @@
+all:
+  children:
+    kubernetes-master:
+      hosts:
+        k8s-master
+    kubernetes-workers:
+      hosts:
+        k8s-worker-[01:02]
+    
