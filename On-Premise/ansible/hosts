@@ -1,0 +1,10 @@
+[cluster-servers]
+k8s-master
+k8s-worker-[01:02]
+    
+[master-node]
+k8s-master
+
+[worker-node]
+k8s-worker-01 node_ip=192.168.50.11
+k8s-worker-02 node_ip=192.168.50.12

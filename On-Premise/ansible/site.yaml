@@ -1,0 +1,23 @@
+---
+- name: Install Docker, Kubernetes, and Kubernetes tools
+  hosts: cluster-servers
+  become: true
+
+  roles:
+    - common
+    - docker
+    - kubernetes
+
+- name: Setup master kubernetes nodes
+  hosts: master-node
+  become: true
+
+  roles:
+    - kube-admin
+
+- name: Setup worker kubernetes nodes
+  hosts: worker-node
+  become: true
+
+  roles:
+    - kube-worker
